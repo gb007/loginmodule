@@ -20,23 +20,7 @@
         </activity>
 
 
-        <activity
-            android:name="com.hollysmart.loginmodule.activity.LoginActivity"
-            android:exported="true"
-            android:screenOrientation="portrait">
 
-        </activity>
-
-
-        <activity
-            android:name="com.hollysmart.loginmodule.gesture.GesturePwdCheckActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.hollysmart.loginmodule.gesture.GesturePwdResetActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.hollysmart.loginmodule.gesture.GesturePwdSettingActivity"
-            android:screenOrientation="portrait" />
 
 
     </application>

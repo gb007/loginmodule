@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_module_bg_yuanjiao_white_10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minHeight="120dp"
+            android:orientation="vertical"
+            android:padding="20dp"
+            tools:ignore="WebViewLayout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_module_str_terms_policy_new"
+                android:textColor="@color/login_module_black"
+                android:textSize="20dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/web_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:autoLink="web"
+                android:lineSpacingExtra="5dp"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_back"
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/login_module_str_disagree"
+                android:textColor="@color/login_module_black"
+                android:textSize="@dimen/login_module_text_xiao" />
+
+
+            <TextView
+                android:id="@+id/tv_ok"
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:background="@drawable/login_module_bg_yuanjiao_blue_25dp"
+                android:gravity="center"
+                android:text="@string/login_module_str_agree"
+                android:textColor="@color/login_module_white"
+                android:textSize="@dimen/login_module_text_xiao" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

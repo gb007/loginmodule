@@ -4,6 +4,7 @@
 
     <dimen name="login_module_text_da">18dp</dimen>
     <dimen name="login_module_text_zhong">15dp</dimen>
+    <dimen name="login_module_text_xiao">13dp</dimen>
 
     <dimen name="login_module_small_grid_width">60dp</dimen>
     <dimen name="login_module_big_grid_width">270dp</dimen>

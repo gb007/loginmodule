@@ -7,6 +7,7 @@ import android.os.Parcelable;
  * 登录页配置
  */
 public class LoginConfig {
+
     //登录页顶部logo
     private int topLogoResourceId;
 

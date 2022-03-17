@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.hollysmart.loginmodule">
 
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission
@@ -10,12 +11,33 @@
         tools:ignore="ProtectedPermissions" />
 
     <application>
+
+        <activity
+            android:name="com.hollysmart.loginmodule.activity.LoginActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+
+        <activity
+            android:name="com.hollysmart.loginmodule.gesture.GesturePwdCheckActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.hollysmart.loginmodule.gesture.GesturePwdResetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.hollysmart.loginmodule.gesture.GesturePwdSettingActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".activity.SettingActivity"
             android:exported="false" />
+
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.XieYiActivity"
             android:exported="true" />
+
     </application>
 
 </manifest>

@@ -14,6 +14,9 @@ import com.google.gson.Gson
 import com.hollysmart.loginmodule.R
 import com.hollysmart.loginmodule.common.ConFig
 import com.hollysmart.loginmodule.common.LoginConfig
+import com.hollysmart.loginmodule.common.PrivacyConfig
+import com.hollysmart.loginmodule.dialog.ScreenViewDialog
+import com.hollysmart.loginmodule.dialog.ScreenViewDialog.OnClickListener
 import com.hollysmart.loginmodule.utils.ShareUtil
 import com.hollysmart.loginmodule.utils.Utils
 import com.kpa.fingerprintdemo.FingerLoginUtil
@@ -30,8 +33,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var ll_logintypeGesture: LinearLayout
     lateinit var ll_logintypeFinger: LinearLayout
     lateinit var loginButton: Button
-
     lateinit var loginConfig: LoginConfig
+    lateinit var privacyConfig: PrivacyConfig
+
+    lateinit var privacyDialog: ScreenViewDialog
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +62,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         ll_logintypeGesture.setOnClickListener(this)
         ll_logintypeFinger.setOnClickListener(this)
         getExtra()
+
+        var agreedTag = ShareUtil.getBoolean( "agreed", this)
+        if (!agreedTag) {
+            initPrivacy()
+            privacyDialog.show()
+        }
+
         img_top_logo.setImageResource(loginConfig.topLogoResourceId)
         usernameTitle.text = loginConfig.userNameTitle
         passwordTitle.text = loginConfig.passwordTitle
@@ -93,9 +106,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             }
         })
 
-
-
-
         accountEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -124,23 +134,44 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
      *
      */
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun setLoginModel(){
+    private fun setLoginModel() {
 
-       var isFingerOpened = ShareUtil.getBoolean("isOpenedFingerPrint", this)
-       var isGestureOpened = ShareUtil.getBoolean("isOpenedGuesture", this)
+        var isFingerOpened = ShareUtil.getBoolean("isOpenedFingerPrint", this)
+        var isGestureOpened = ShareUtil.getBoolean("isOpenedGuesture", this)
 
-        if(isFingerOpened){
-            FingerLoginUtil.instance.FingerLogin(this,ConFig.CHECK_PRINT_FINGER_MODEL_LOGIN)
+        if (isFingerOpened) {
+            FingerLoginUtil.instance.FingerLogin(this, ConFig.CHECK_PRINT_FINGER_MODEL_LOGIN)
         }
-        if(isGestureOpened){
+        if (isGestureOpened) {
             val intent = Intent(this@LoginActivity, GesturePwdCheckActivity::class.java)
-            intent.putExtra("checkModel",ConFig.CHECK_GUESTURE_MODEL_LOGIN)
+            intent.putExtra("checkModel", ConFig.CHECK_GUESTURE_MODEL_LOGIN)
             startActivity(intent)
         }
 
     }
 
 
+    private fun initPrivacy() {
+        privacyDialog = ScreenViewDialog(
+            this,
+            R.style.login_module_dialog,
+            privacyConfig.privacyTitle,
+            privacyConfig.serviceTitle,
+            privacyConfig.content,
+            privacyConfig.privacyUrl,
+            privacyConfig.serviceUrl
+        )
+        privacyDialog.setOnClickOkListener(object : OnClickListener {
+            override fun OnClickOK(view: View?) {
+                ShareUtil.putBoolean("agreed", true, this@LoginActivity)
+            }
+
+            override fun OnClickBack(view: View?) {
+                privacyDialog.dismiss()
+            }
+        })
+        privacyDialog.setCancelable(false)
+    }
 
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -174,7 +205,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 val isOpenedGuesture = ShareUtil.getBoolean("isOpenedGuesture", this)
                 if (isOpenedGuesture) {
                     val intent = Intent(this@LoginActivity, GesturePwdCheckActivity::class.java)
-                    intent.putExtra("checkModel",ConFig.CHECK_GUESTURE_MODEL_LOGIN)
+                    intent.putExtra("checkModel", ConFig.CHECK_GUESTURE_MODEL_LOGIN)
                     startActivity(intent)
                 } else {
                     Toast.makeText(this, "未设置手势登录功能,请使用其它方式登录", Toast.LENGTH_SHORT).show()
@@ -182,7 +213,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
             }
             R.id.ll_logintypeFinger -> {
-                FingerLoginUtil.instance.FingerLogin(this,ConFig.CHECK_PRINT_FINGER_MODEL_LOGIN)
+                FingerLoginUtil.instance.FingerLogin(this, ConFig.CHECK_PRINT_FINGER_MODEL_LOGIN)
             }
         }
     }
@@ -196,7 +227,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun getExtra() {
-         loginConfig = Gson().fromJson(intent.getStringExtra("loginConfig"), LoginConfig::class.java)
+        loginConfig = Gson().fromJson(intent.getStringExtra("loginConfig"), LoginConfig::class.java)
+        privacyConfig =
+            Gson().fromJson(intent.getStringExtra("privacyConfig"), PrivacyConfig::class.java)
     }
 
 

@@ -27,4 +27,6 @@
     <color name="login_module_huise_bg">#f0f0f0</color>
     <color name="login_module_gray_52">#525252</color>
     <color name="login_module_gray_d9">#D9D9D9</color>
+
+    <color name="login_module_blue_color">#108ee9</color>
 </resources>

@@ -1,3 +1,9 @@
 <resources>
 
+
+    <string name="login_module_str_agree">同意并继续</string>
+    <string name="login_module_str_disagree">不同意</string>
+    <string name="login_module_str_terms_policy">服务协议和隐私政策</string>
+    <string name="login_module_str_terms_policy_new">用户协议更新提示</string>
+
 </resources>
