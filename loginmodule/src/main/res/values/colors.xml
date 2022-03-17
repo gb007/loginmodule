@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <color name="login_module_colorPrimary">#629FEB</color>
+    <color name="login_module_colorPrimaryDark">#629FEB</color>
+    <color name="login_module_colorAccent">#7e7e7e</color>
+    <color name="login_module_baise">#FFFFFF</color>
+    <color name="login_module_white">#ffffff</color>
+    <color name="login_module_black">#000000</color>
+    <color name="login_module_gray">#999999</color>
+    <color name="login_module_yellow">#F6DB61</color>
+
+    <color name="login_module_transparent">#00000000</color>
+    <color name="login_module_titleBg">#629FEB</color>
+    <color name="login_module_black_3">#333333</color>
+    <color name="login_module_black_14">#141414</color>
+
+    <color name="login_module_colorNotChecked">#EBEBEB</color>
+    <color name="login_module_colorChecked">#F8A916</color>
+    <color name="login_module_colorCheckedErr">#FF3232</color>
+    <color name="login_module_colorRoundBorder">#FEEDD0</color>
+    <color name="login_module_colorRoundBorderErr">#FFE1E1</color>
+    <color name="login_module_color_v">#999999</color>
+
+
+    <color name="login_module_huise_bg">#f0f0f0</color>
+    <color name="login_module_gray_52">#525252</color>
+    <color name="login_module_gray_d9">#D9D9D9</color>
+</resources>

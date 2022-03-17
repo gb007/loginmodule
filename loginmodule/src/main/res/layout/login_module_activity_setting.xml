@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/login_module_huise_bg"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/login_module_white">
+
+            <ImageView
+                android:id="@+id/tv_fanhui"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="12dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:src="@mipmap/login_module_icon_backx3"
+                android:text="取消"
+                android:textColor="@color/login_module_white"
+                android:textSize="@dimen/login_module_text_zhong" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_toRightOf="@+id/tv_fanhui"
+                android:text="APP安全验证"
+                android:textColor="@color/login_module_black"
+                android:textSize="@dimen/login_module_tv_size"
+                android:textStyle="bold" />
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/ll_biaoQian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:src="@mipmap/login_module_icon_bg_yanzheng">
+
+
+    </ImageView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:id="@+id/rl_gestureSetting"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/login_module_white">
+
+
+            <ImageView
+                android:id="@+id/iv_shouShi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/login_module_icon_gusture" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/iv_shouShi"
+                android:gravity="center_vertical"
+                android:text="手势验证"
+                android:textColor="@color/login_module_black_14"
+                android:textSize="@dimen/login_module_text_zhong" />
+
+            <com.kyleduo.switchbutton.SwitchButton
+                android:id="@+id/sbtn_gestureSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical"
+                app:kswBackDrawable="@drawable/login_module_ios_back_drawable"
+                app:kswBackMeasureRatio="1.8"
+                app:kswThumbDrawable="@drawable/login_module_ios_thumb_selector"
+                app:kswThumbMarginBottom="-4dp"
+                app:kswThumbMarginLeft="-2dp"
+                app:kswThumbMarginRight="-2dp"
+                app:kswThumbMarginTop="-0dp"
+                app:kswThumbWidth="10dp" />
+
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.4dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/login_module_gray_52" />
+
+        <RelativeLayout
+            android:id="@+id/rl_fingerSetting"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/login_module_white">
+
+
+            <ImageView
+                android:id="@+id/iv_zhiWen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/login_module_icon_finger" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/iv_zhiWen"
+                android:gravity="center_vertical"
+                android:text="指纹信息"
+                android:textColor="@color/login_module_black_14"
+                android:textSize="@dimen/login_module_text_zhong" />
+
+
+            <com.kyleduo.switchbutton.SwitchButton
+                android:id="@+id/sbtn_finger"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical"
+                app:kswBackDrawable="@drawable/login_module_ios_back_drawable"
+                app:kswBackMeasureRatio="1.8"
+                app:kswThumbDrawable="@drawable/login_module_ios_thumb_selector"
+                app:kswThumbMarginBottom="-4dp"
+                app:kswThumbMarginLeft="-2dp"
+                app:kswThumbMarginRight="-2dp"
+                app:kswThumbMarginTop="-0dp"
+                app:kswThumbWidth="10dp" />
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
