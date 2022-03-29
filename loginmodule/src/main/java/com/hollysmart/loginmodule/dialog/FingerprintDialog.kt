@@ -3,6 +3,7 @@ package com.hollysmart.loginmodule.dialog
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import com.hollysmart.loginmodule.activity.LoginActivity
 import com.hollysmart.loginmodule.activity.SettingActivity
 import com.hollysmart.loginmodule.common.ConFig
 import com.hollysmart.loginmodule.eventbus.EB_Login_Type_Result
+import com.hollysmart.loginmodule.gesture.GesturePwdCheckActivity
 import com.hollysmart.loginmodule.utils.ShareUtil
 import org.greenrobot.eventbus.EventBus
 import javax.crypto.Cipher
@@ -34,6 +36,7 @@ class FingerprintDialog : DialogFragment {
     // 标识用户是否是主动取消的认证
     private var isSelfCancelled = false
     private lateinit var mCipher: Cipher
+
     // 1为校验登录； 2为开启指纹； 3为关闭指纹
     private var fingPrintModel: Int = 1
 
@@ -50,7 +53,16 @@ class FingerprintDialog : DialogFragment {
         super.onAttach(context)
 
         if (fingPrintModel == ConFig.CHECK_PRINT_FINGER_MODEL_LOGIN) {
-            mActivity = activity as LoginActivity
+
+            if (activity is LoginActivity) {
+                mActivity = activity as LoginActivity
+            } else if (activity is GesturePwdCheckActivity) {
+                mActivity = activity as GesturePwdCheckActivity
+            }
+
+//            mActivity = activity as LoginActivity
+
+
         } else if (fingPrintModel == ConFig.CHECK_PRINT_FINGER_MODEL_OPEN || fingPrintModel == ConFig.CHECK_PRINT_FINGER_MODEL_CLOSE) {
             mActivity = activity as SettingActivity
         }
@@ -135,7 +147,24 @@ class FingerprintDialog : DialogFragment {
 
                 override fun onAuthenticationSucceeded(result: FingerprintManagerCompat.AuthenticationResult?) {
                     if (fingPrintModel == ConFig.CHECK_PRINT_FINGER_MODEL_LOGIN) {
-                        LoginActivity.startActivity(mActivity as LoginActivity)
+
+
+//                        LoginActivity.startActivity(mActivity as LoginActivity)
+
+//                        if (activity is LoginActivity) {
+//                            mActivity = activity as LoginActivity
+//
+//                            val intent = Intent(activity, SettingActivity::class.java)
+//                            mActivity.startActivity(intent)
+//
+//                        } else if (activity is GesturePwdCheckActivity) {
+//                            val intent = Intent(activity, SettingActivity::class.java)
+//                            mActivity.startActivity(intent)
+//                        }
+
+                        val intent = Intent(activity, SettingActivity::class.java)
+                        mActivity.startActivity(intent)
+
                     } else if (fingPrintModel == ConFig.CHECK_PRINT_FINGER_MODEL_OPEN) {
                         //发送登录成功消息，通知我的页面重新加载
                         var ebLoginTypeResult = EB_Login_Type_Result()

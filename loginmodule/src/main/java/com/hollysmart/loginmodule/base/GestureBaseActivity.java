@@ -12,12 +12,14 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.hollysmart.loginmodule.utils.CacheUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GestureBaseActivity extends Activity {
+public class GestureBaseActivity extends AppCompatActivity {
 
     protected Handler handler = new Handler(Looper.getMainLooper());
 

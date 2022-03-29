@@ -2,41 +2,87 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.hollysmart.loginmodule">
+    <!-- // 在应用的AndroidManifest.xml添加如下<queries>标签 -->
+    <queries>
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+        <!-- // 指定微信包名 -->
+        <package android:name="com.tencent.mm" />
+        <!-- //指定qq包名 -->
+        <package android:name="com.tencent.mobileqq" />
+    </queries>
+
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission
         android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"
         tools:ignore="ProtectedPermissions" />
 
     <application>
-
         <activity
-            android:name="com.hollysmart.loginmodule.activity.LoginActivity"
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".activity.LoginActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
-
-        </activity>
-
-
+            android:screenOrientation="portrait"></activity>
         <activity
-            android:name="com.hollysmart.loginmodule.gesture.GesturePwdCheckActivity"
+            android:name=".gesture.GesturePwdCheckActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hollysmart.loginmodule.gesture.GesturePwdResetActivity"
+            android:name=".gesture.GesturePwdResetActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hollysmart.loginmodule.gesture.GesturePwdSettingActivity"
+            android:name=".gesture.GesturePwdSettingActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.SettingActivity"
             android:exported="false" />
-
         <activity
             android:name=".activity.XieYiActivity"
             android:exported="true" />
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:exported="true" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1112189842" />
+            </intent-filter>
+        </activity>
+
+
+        <!--动态配置meta-data的可变内容-->
+        <meta-data
+            android:name="qqappid"
+            android:value="${qqappid}"/>
+
+        <meta-data
+            android:name="QQ_SECRET"
+            android:value="${QQ_SECRET}"/>
 
     </application>
 

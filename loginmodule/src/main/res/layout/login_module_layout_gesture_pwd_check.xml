@@ -37,5 +37,183 @@
         android:layout_marginTop="30dp"
         android:text="密码登录"
         android:textColor="@color/login_module_color_v"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:visibility="gone"/>
+
+
+
+    <LinearLayout
+        android:id="@+id/ll_other_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:layout_gravity="center"
+            android:gravity="center_vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="#71b1ed"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/login_module_text_zhong"
+                android:textColor="@color/login_module_black_14"
+                android:text="其他登录方式"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="#71b1ed"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:gravity="center_vertical">
+
+
+            <LinearLayout
+                android:id="@+id/ll_logintypeUser"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/login_module_icon_logintype_gesture"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/login_module_text_zhong"
+                    android:textColor="@color/login_module_black_14"
+                    android:text="用户名登录"/>
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/ll_logintypeFinger"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/login_module_icon_logintype_finger"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/login_module_text_zhong"
+                    android:textColor="@color/login_module_black_14"
+                    android:text="指纹登录"/>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+
+            <LinearLayout
+                android:id="@+id/ll_logintype_wechat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/login_module_icon_wechat" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="微信登录"
+                    android:textColor="@color/login_module_black_14"
+                    android:textSize="@dimen/login_module_text_zhong" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_logintype_qq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/login_module_icon_qq" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="QQ登录"
+                    android:textColor="@color/login_module_black_14"
+                    android:textSize="@dimen/login_module_text_zhong" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
 </LinearLayout>

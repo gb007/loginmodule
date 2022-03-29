@@ -14,14 +14,47 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [
+                QQ_SECRET : "T4cChe0BvGGfRM56",
+                qqappid : "1112189842"
+        ]
     }
+
+
+
+    signingConfigs {
+        release {
+            keyAlias 'myalias'
+            keyPassword '111111'
+            storeFile file('login.jks')
+            storePassword '111111'
+        }
+        debug {
+            keyAlias 'myalias'
+            keyPassword '111111'
+            storeFile file('login.jks')
+            storePassword '111111'
+        }
+    }
+
 
     buildTypes {
         release {
+            debuggable true
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+
     }
+    
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -45,4 +78,17 @@ dependencies {
 
     //Gson json解析
     implementation 'com.google.code.gson:gson:2.8.9'
+
+
+    implementation 'com.umeng.umsdk:share-wx:7.1.5' //微信完整版
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.7.0'//微信官方依赖库，必选
+
+//    // 友盟智能认证（第三方认证登录）
+//    implementation  'com.umeng.umsdk:common:9.3.8'// 必选
+//    implementation  'com.umeng.umsdk:asms:1.2.3'// 必选
+//    implementation  'com.umeng.umsdk:uverify:2.5.1'// 必选
+//    implementation  'com.umeng.umsdk:uverify-main:2.0.3'// 必选
+//    implementation  'com.umeng.umsdk:uverify-logger:2.0.3'// 必选
+//    implementation  'com.umeng.umsdk:uverify-crashshield:2.0.3'// 必选
+//    implementation 'com.android.support:appcompat-v7:27.1.1'//（最低版本）
 }

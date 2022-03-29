@@ -14,8 +14,9 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
-    }
 
+    }
+    
     buildTypes {
         release {
             minifyEnabled false
@@ -49,4 +50,33 @@ dependencies {
     implementation 'com.kyleduo.switchbutton:library:1.4.4'
     //EventBus
     implementation 'org.greenrobot:eventbus:3.1.1'
+
+
+   
+    // 友盟智能认证（第三方认证登录）
+    implementation  'com.umeng.umsdk:common:9.3.8'// 必选
+    implementation  'com.umeng.umsdk:asms:1.2.3'// 必选
+
+    implementation  'com.umeng.umsdk:uverify:2.5.1'// 必选
+    implementation  'com.umeng.umsdk:uverify-main:2.0.3'// 必选
+    implementation  'com.umeng.umsdk:uverify-logger:2.0.3'// 必选
+    implementation  'com.umeng.umsdk:uverify-crashshield:2.0.3'// 必选
+    implementation 'com.android.support:appcompat-v7:27.1.1'//（最低版本）
+
+
+    implementation  'com.umeng.umsdk:share-core:7.1.5'//分享核心库，必选
+    implementation  'com.umeng.umsdk:share-board:7.1.5'//分享面板功能，可选
+
+    implementation 'com.umeng.umsdk:share-wx:7.1.5' //微信完整版
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.7.0'//微信官方依赖库，必选
+
+    implementation 'com.umeng.umsdk:share-qq:7.1.5'//QQ完整版
+    implementation 'com.tencent.tauth:qqopensdk:3.53.0'//QQ官方依赖库，必选
+    implementation 'com.squareup.okhttp3:okhttp:3.12.12'//QQ SDK在3.53.0版本及以上时需要集成okhttp官方依赖库，必选
+
+//    implementation 'com.umeng.umsdk:share-sina:7.1.5'//新浪微博完整版
+//    implementation 'com.sina.weibo.sdk:core:10.10.0:openDefaultRelease@aar'
+    //新浪微博官方SDK依赖库，必选，如在线集成失败请本地下载离线包https://counsel.umeng.com/api/activity/download?fileName=activity/67/openDefault-10.10.0.aar
+
+
 }
