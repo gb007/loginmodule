@@ -1,6 +1,8 @@
 package com.hollysmart.loginmodule.common;
 
-public class PrivacyConfig {
+import java.io.Serializable;
+
+public class PrivacyConfig implements Serializable {
 
     private String privacyTitle;
     private String serviceTitle;

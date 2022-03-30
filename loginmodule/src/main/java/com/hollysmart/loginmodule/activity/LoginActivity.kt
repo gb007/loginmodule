@@ -26,6 +26,7 @@ import com.umeng.commonsdk.UMConfigure
 import com.umeng.socialize.PlatformConfig
 import com.umeng.socialize.UMShareAPI
 import android.widget.Toast
+import com.hollysmart.loginmodule.common.ThirdAuthConfig
 import com.umeng.commonsdk.stateless.UMSLEnvelopeBuild
 
 import com.umeng.commonsdk.stateless.UMSLEnvelopeBuild.mContext
@@ -51,6 +52,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var loginButton: Button
     lateinit var loginConfig: LoginConfig
     lateinit var privacyConfig: PrivacyConfig
+    lateinit var thirdAuthConfig: ThirdAuthConfig
 
     lateinit var privacyDialog: ScreenViewDialog
 
@@ -210,16 +212,27 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
      */
     private fun initThirdAuth() {
 
+        //umeng设置
         UMConfigure.init(
-            this, "23964aa317aa87760aaa122", "umeng", UMConfigure.DEVICE_TYPE_PHONE, ""
-        );
-
+            this, thirdAuthConfig.umenG_APP_KEY, "umeng", UMConfigure.DEVICE_TYPE_PHONE, ""
+        )
         // 微信设置
-        PlatformConfig.setWeixin("wx19d82d4e169d37c5", "45ed3b39c5b023ef56bea4142948a614");
-        PlatformConfig.setWXFileProvider("com.hollysmart.loginmodule.fileprovider");
+        PlatformConfig.setWeixin(thirdAuthConfig.wechaT_APP_ID, thirdAuthConfig.wechaT_APP_SECRET)
+        PlatformConfig.setWXFileProvider("com.hollysmart.loginmodule.fileprovider")
         // QQ设置
-        PlatformConfig.setQQZone("1112189842", "T4cChe0BvGGfRM56");
-        PlatformConfig.setQQFileProvider("com.hollysmart.loginmodule.fileprovider");
+        PlatformConfig.setQQZone(thirdAuthConfig.qQ_APP_ID, thirdAuthConfig.qQ_APP_SECRET)
+        PlatformConfig.setQQFileProvider("com.hollysmart.loginmodule.fileprovider")
+
+
+//        UMConfigure.init(
+//            this, "23964aa317aa87760aaa122", "umeng", UMConfigure.DEVICE_TYPE_PHONE, ""
+//        )
+//        // 微信设置
+//        PlatformConfig.setWeixin("wx19d82d4e169d37c5", "45ed3b39c5b023ef56bea4142948a614")
+//        PlatformConfig.setWXFileProvider("com.hollysmart.loginmodule.fileprovider")
+//        // QQ设置
+//        PlatformConfig.setQQZone("1112189842", "T4cChe0BvGGfRM56")
+//        PlatformConfig.setQQFileProvider("com.hollysmart.loginmodule.fileprovider")
 
         authListener = object : UMAuthListener {
             /**
@@ -302,6 +315,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 if (isOpenedGuesture) {
                     val intent = Intent(this@LoginActivity, GesturePwdCheckActivity::class.java)
                     intent.putExtra("checkModel", ConFig.CHECK_GUESTURE_MODEL_LOGIN)
+                    intent.putExtra("thirdAuthConfig", Gson().toJson(thirdAuthConfig))
                     startActivity(intent)
                 } else {
                     Toast.makeText(this, "未设置手势登录功能,请使用其它方式登录", Toast.LENGTH_SHORT).show()
@@ -346,6 +360,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         loginConfig = Gson().fromJson(intent.getStringExtra("loginConfig"), LoginConfig::class.java)
         privacyConfig =
             Gson().fromJson(intent.getStringExtra("privacyConfig"), PrivacyConfig::class.java)
+        thirdAuthConfig =
+            Gson().fromJson(intent.getStringExtra("thirdAuthConfig"), ThirdAuthConfig::class.java)
     }
 
     override fun onActivityResult(

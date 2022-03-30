@@ -3,10 +3,12 @@ package com.hollysmart.loginmodule.common;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 /**
  * 登录页配置
  */
-public class LoginConfig {
+public class LoginConfig implements Serializable {
 
     //登录页顶部logo
     private int topLogoResourceId;

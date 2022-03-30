@@ -12,11 +12,13 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.google.gson.Gson;
 import com.hollysmart.loginmodule.R;
 import com.hollysmart.loginmodule.activity.LoginActivity;
 import com.hollysmart.loginmodule.activity.SettingActivity;
 import com.hollysmart.loginmodule.base.GestureBaseActivity;
 import com.hollysmart.loginmodule.common.ConFig;
+import com.hollysmart.loginmodule.common.ThirdAuthConfig;
 import com.hollysmart.loginmodule.eventbus.EB_Login_Type_Result;
 import com.hollysmart.loginmodule.utils.ShareUtil;
 import com.hollysmart.loginmodule.view.EasyGestureLockLayout;
@@ -48,6 +50,7 @@ public class GesturePwdCheckActivity extends GestureBaseActivity implements View
     private LinearLayout ll_logintype_qq;
     private UMAuthListener authListener;
     private UMShareAPI mShareAPI;
+    private ThirdAuthConfig thirdAuthConfig;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +74,7 @@ public class GesturePwdCheckActivity extends GestureBaseActivity implements View
         ll_logintype_wechat.setOnClickListener(this);
         ll_logintype_qq.setOnClickListener(this);
         checkModel = getIntent().getIntExtra("checkModel", 1);
+        thirdAuthConfig = new Gson().fromJson(getIntent().getStringExtra("thirdAuthConfig"), ThirdAuthConfig.class);
         if (checkModel == ConFig.CHECK_GUESTURE_MODEL_LOGIN) {
             ll_other_login.setVisibility(View.VISIBLE);
         } else {
@@ -134,16 +138,27 @@ public class GesturePwdCheckActivity extends GestureBaseActivity implements View
 
     private void initThirdAuth() {
 
+        //umeng设置
         UMConfigure.init(
-                this, "23964aa317aa87760aaa122", "umeng", UMConfigure.DEVICE_TYPE_PHONE, ""
+                this, thirdAuthConfig.getUMENG_APP_KEY(), "umeng", UMConfigure.DEVICE_TYPE_PHONE, ""
         );
-
         // 微信设置
-        PlatformConfig.setWeixin("wx19d82d4e169d37c5", "45ed3b39c5b023ef56bea4142948a614");
+        PlatformConfig.setWeixin(thirdAuthConfig.getWECHAT_APP_ID(), thirdAuthConfig.getWECHAT_APP_SECRET());
         PlatformConfig.setWXFileProvider("com.hollysmart.loginmodule.fileprovider");
         // QQ设置
-        PlatformConfig.setQQZone("1112189842", "T4cChe0BvGGfRM56");
+        PlatformConfig.setQQZone(thirdAuthConfig.getQQ_APP_ID(), thirdAuthConfig.getQQ_APP_SECRET());
         PlatformConfig.setQQFileProvider("com.hollysmart.loginmodule.fileprovider");
+
+//        UMConfigure.init(
+//                this, "23964aa317aa87760aaa122", "umeng", UMConfigure.DEVICE_TYPE_PHONE, ""
+//        );
+//
+//        // 微信设置
+//        PlatformConfig.setWeixin("wx19d82d4e169d37c5", "45ed3b39c5b023ef56bea4142948a614");
+//        PlatformConfig.setWXFileProvider("com.hollysmart.loginmodule.fileprovider");
+//        // QQ设置
+//        PlatformConfig.setQQZone("1112189842", "T4cChe0BvGGfRM56");
+//        PlatformConfig.setQQFileProvider("com.hollysmart.loginmodule.fileprovider");
 
         authListener = new UMAuthListener() {
 
