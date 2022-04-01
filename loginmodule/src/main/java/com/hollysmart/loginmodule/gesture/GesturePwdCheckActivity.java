@@ -58,7 +58,9 @@ public class GesturePwdCheckActivity extends GestureBaseActivity implements View
         setContentView(R.layout.login_module_layout_gesture_pwd_check);
         initView();
         initLayoutView();
-        initThirdAuth();
+        if (checkModel == ConFig.CHECK_GUESTURE_MODEL_LOGIN) {
+            initThirdAuth();
+        }
     }
 
     private void initView() {
@@ -74,9 +76,9 @@ public class GesturePwdCheckActivity extends GestureBaseActivity implements View
         ll_logintype_wechat.setOnClickListener(this);
         ll_logintype_qq.setOnClickListener(this);
         checkModel = getIntent().getIntExtra("checkModel", 1);
-        thirdAuthConfig = new Gson().fromJson(getIntent().getStringExtra("thirdAuthConfig"), ThirdAuthConfig.class);
         if (checkModel == ConFig.CHECK_GUESTURE_MODEL_LOGIN) {
             ll_other_login.setVisibility(View.VISIBLE);
+            thirdAuthConfig = new Gson().fromJson(getIntent().getStringExtra("thirdAuthConfig"), ThirdAuthConfig.class);
         } else {
             ll_other_login.setVisibility(View.GONE);
         }
