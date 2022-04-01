@@ -175,6 +175,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         if (isGestureOpened) {
             val intent = Intent(this@LoginActivity, GesturePwdCheckActivity::class.java)
             intent.putExtra("checkModel", ConFig.CHECK_GUESTURE_MODEL_LOGIN)
+            intent.putExtra("thirdAuthConfig", Gson().toJson(thirdAuthConfig))
             startActivity(intent)
         }
 

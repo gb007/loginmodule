@@ -16,8 +16,11 @@ allprojects {
 ## 2.在需要引用此类库模块的build.gradle中引入依赖
 
  ````
+ 
 dependencies {
 	implementation 'com.github.gb007:loginmodule:Tag'
+	//Gson json解析
+    implementation 'com.google.code.gson:gson:2.8.9'
 	}
 
 ````
@@ -28,7 +31,7 @@ dependencies {
 
 ## 4.配置第三方（微信，QQ）授权登录
 
-### 4.1在工程的根目录build.gradle中添加微信sdk依赖，方便在主工程中接收微信授权或分享callback
+### 4.1 在工程的根目录build.gradle中添加微信sdk依赖，方便在主工程中接收微信授权或分享callback
 
 ````
 
@@ -61,7 +64,7 @@ defaultConfig {
     
 ````
 
-## 4.3在工程的包名目录下创建wxapi文件夹，新建一个名为WXEntryActivity的activity继承WXCallbackActivity,并配置Android Manifest XML
+## 4.3 在工程的包名目录下创建wxapi文件夹，新建一个名为WXEntryActivity的activity继承WXCallbackActivity,并配置Android Manifest XML
 
 ````
 
