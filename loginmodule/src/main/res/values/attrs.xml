@@ -13,4 +13,15 @@
         <attr name="count" format="integer" /><!--  每行或者列的元素个数 -->
         <attr name="ifAllowInteract" format="boolean" /><!-- 是否允许时间交互，主要是手势解锁 -->
     </declare-styleable>
+
+
+    <!-- 状态栏 -->
+    <declare-styleable name="LoginModuleStatusBarHeightView">
+        <attr name="loginmodule_use_type" format="integer">
+            <enum name="use_height" value="0" />
+            <enum name="use_padding_top" value="1" />
+        </attr>
+    </declare-styleable>
+
+
 </resources>

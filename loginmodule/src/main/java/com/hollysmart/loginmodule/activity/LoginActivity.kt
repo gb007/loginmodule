@@ -5,7 +5,10 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -34,21 +37,53 @@ import com.umeng.commonsdk.stateless.UMSLEnvelopeBuild.mContext
 import com.umeng.socialize.bean.SHARE_MEDIA
 
 import com.umeng.socialize.UMAuthListener
+import android.view.ViewGroup
+
+import android.view.WindowManager
+import com.hollysmart.loginmodule.view.statusbar.StatusBarUtil
+import android.graphics.BitmapFactory
+
+import android.graphics.Bitmap
+import android.util.Base64
+import com.google.gson.JsonObject
+import com.hollysmart.loginmodule.mvp.contract.LoginContract
+import com.hollysmart.loginmodule.mvp.contract.RandomImageContract
+import com.hollysmart.loginmodule.mvp.model.bean.LoginBean
+import com.hollysmart.loginmodule.mvp.model.bean.RandomImageBean
+import com.hollysmart.loginmodule.mvp.presenter.LoginPresenter
+import com.hollysmart.loginmodule.mvp.presenter.RandomImagePresenter
+import com.hollysmart.loginmodule.utils.MD5Utils
+import com.hollysmart.myfirstkotlin.common.AppConst
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import java.lang.Exception
+import java.sql.Timestamp
+import java.util.*
+import kotlin.collections.HashMap
 
 
-class LoginActivity : AppCompatActivity(), View.OnClickListener {
+class LoginActivity : AppCompatActivity(), View.OnClickListener, RandomImageContract.View,
+    LoginContract.View {
 
     lateinit var img_top_logo: ImageView
+    lateinit var img_icon_password: ImageView
+    lateinit var img_verify_code: ImageView
     lateinit var usernameTitle: TextView
     lateinit var passwordTitle: TextView
     lateinit var tv_register: TextView
+    lateinit var tv_find_password: TextView
+    lateinit var tv_login_title: TextView
     lateinit var accountEditText: EditText
     lateinit var passwordEditText: EditText
+    lateinit var verify_code_EditText: EditText
     lateinit var requestAuthCodeButton: TimerButton
-    lateinit var ll_logintypeGesture: LinearLayout
-    lateinit var ll_logintypeFinger: LinearLayout
-    lateinit var ll_logintype_wechat: LinearLayout
-    lateinit var ll_logintype_qq: LinearLayout
+    lateinit var img_logintypeGesture: ImageView
+    lateinit var img_logintypeFinger: ImageView
+    lateinit var img_logintype_wechat: ImageView
+    lateinit var img_logintype_qq: ImageView
+    lateinit var img_logintype_phone: ImageView
+    lateinit var img_logintype_user: ImageView
     lateinit var loginButton: Button
     lateinit var loginConfig: LoginConfig
     lateinit var privacyConfig: PrivacyConfig
@@ -59,37 +94,82 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var authListener: UMAuthListener
     lateinit var mShareAPI: UMShareAPI
 
+    private var showPassword = false
+
+
+    private lateinit var timestamp: String
+    private val mPresenter by lazy { RandomImagePresenter() }
+    private val loginPresenter by lazy { LoginPresenter() }
+
+    init {
+        mPresenter.attachView(this)
+        loginPresenter.attachView(this)
+    }
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //实现状态栏文字颜色为暗色
+        window.decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
         setContentView(R.layout.login_module_activity_login)
         initView()
+        init()
         setLoginModel()
         initThirdAuth()
-
+        getVerifyCode()
 
     }
 
+    private fun init(){
+        AppConst.API_SERVER_URL = AppConst.API_HTTP + loginConfig.baseUrl + ":" + loginConfig.port
+    }
+
+
     private fun initView() {
+
+
+        //这里注意下 调用setRootViewFitsSystemWindows 里面 winContent.getChildCount()=0 导致代码无法继续
+        //是因为你需要在setContentView之后才可以调用 setRootViewFitsSystemWindows
+        //当FitsSystemWindows设置 true 时，会在屏幕最上方预留出状态栏高度的 padding
+        StatusBarUtil.setRootViewFitsSystemWindows(this, false)
+        //设置状态栏透明
+        //设置状态栏透明
+        StatusBarUtil.setTranslucentStatus(this)
+        StatusBarUtil.setStatusBarDarkTheme(this, true)
+
         img_top_logo = findViewById(R.id.img_top_logo)
+        img_icon_password = findViewById(R.id.img_icon_password)
+        img_verify_code = findViewById(R.id.img_verify_code)
         usernameTitle = findViewById(R.id.tv_username)
         passwordTitle = findViewById(R.id.tv_password)
         accountEditText = findViewById(R.id.accountEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
+        verify_code_EditText = findViewById(R.id.verify_code_EditText)
         loginButton = findViewById(R.id.loginButton)
         requestAuthCodeButton = findViewById(R.id.btn_verificationCode)
-        ll_logintypeGesture = findViewById(R.id.ll_logintypeGesture)
-        ll_logintypeFinger = findViewById(R.id.ll_logintypeFinger)
-        ll_logintype_wechat = findViewById(R.id.ll_logintype_wechat)
-        ll_logintype_qq = findViewById(R.id.ll_logintype_qq)
+
+        img_logintypeGesture = findViewById(R.id.img_guesture)
+        img_logintypeFinger = findViewById(R.id.img_fingerprint)
+        img_logintype_wechat = findViewById(R.id.img_wechat)
+        img_logintype_qq = findViewById(R.id.img_qq)
+        img_logintype_phone = findViewById(R.id.img_phone)
+        img_logintype_user = findViewById(R.id.img_user)
+
+        tv_login_title = findViewById(R.id.tv_login_title)
         tv_register = findViewById(R.id.tv_register)
+        tv_find_password = findViewById(R.id.tv_find_password)
+        img_icon_password.setOnClickListener(this)
         loginButton.setOnClickListener(this)
         requestAuthCodeButton.setOnClickListener(this)
-        ll_logintypeGesture.setOnClickListener(this)
-        ll_logintypeFinger.setOnClickListener(this)
-        ll_logintype_wechat.setOnClickListener(this)
-        ll_logintype_qq.setOnClickListener(this)
+        img_logintypeGesture.setOnClickListener(this)
+        img_logintypeFinger.setOnClickListener(this)
+        img_logintype_wechat.setOnClickListener(this)
+        img_logintype_qq.setOnClickListener(this)
+        img_logintype_phone.setOnClickListener(this)
+        img_logintype_user.setOnClickListener(this)
         tv_register.setOnClickListener(this)
+        tv_find_password.setOnClickListener(this)
+        img_verify_code.setOnClickListener(this)
         getExtra()
 
         var agreedTag = ShareUtil.getBoolean("agreed", this)
@@ -99,17 +179,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         img_top_logo.setImageResource(loginConfig.topLogoResourceId)
-        usernameTitle.text = loginConfig.userNameTitle
-        passwordTitle.text = loginConfig.passwordTitle
-        accountEditText.hint = "请输入" + loginConfig.userNameTitle
-        passwordEditText.hint = "请输入" + loginConfig.passwordTitle
-
-        if (loginConfig.inputModel == ConFig.INPUTMODEL_USER) {//用户名，密码
-            requestAuthCodeButton.visibility = View.GONE
-        } else if (loginConfig.inputModel == ConFig.INPUTMODEL_PHONE) {//手机号，验证码
-            requestAuthCodeButton.visibility = View.VISIBLE
-        }
-
+        alertLoginMode()
         accountEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -119,18 +189,17 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
             }
 
+            @RequiresApi(Build.VERSION_CODES.M)
             override fun afterTextChanged(editable: Editable?) {
                 val phone: String = editable.toString().trim { it <= ' ' }
                 if (Utils.checkMobilePhone(phone)) {
                     Utils.showToast(this@LoginActivity, "手机号正确")
                     requestAuthCodeButton.isEnabled = true
-                    requestAuthCodeButton.background =
-                        resources.getDrawable(R.drawable.shape_btn_vscode)
+                    requestAuthCodeButton.setTextColor(getColor(R.color.login_module_blue_34))
                 } else {
                     loginButton.isEnabled = false
                     requestAuthCodeButton.isEnabled = false
-                    requestAuthCodeButton.background =
-                        resources.getDrawable(R.drawable.shape_btn_vscode_enable)
+                    requestAuthCodeButton.setTextColor(getColor(R.color.login_module_gray_a7))
                 }
             }
         })
@@ -202,6 +271,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
             override fun OnClickBack(view: View?) {
                 privacyDialog.dismiss()
+                finish()
             }
         })
         privacyDialog.setCancelable(false)
@@ -277,19 +347,46 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
+    /**
+     * 登录
+     */
+    private fun login() {
+
+        var loginJsonObject = JsonObject()
+        loginJsonObject.addProperty("username", accountEditText.text.toString())
+        loginJsonObject.addProperty(
+            "password",
+            MD5Utils.getMD5Code(passwordEditText.text.toString())
+        )
+        loginJsonObject.addProperty("remember_me", true)
+        loginJsonObject.addProperty("captcha", verify_code_EditText.text.toString())
+        loginJsonObject.addProperty("checkKey", timestamp)
+
+        val gson = Gson()
+        val str_dataJson = gson.toJson(loginJsonObject)
+        val requestBody =
+            RequestBody.create("application/json;charset=UTF-8".toMediaTypeOrNull(), str_dataJson)
+        loginPresenter.login(requestBody)
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onClick(v: View?) {
         when (v?.id) {
 
             R.id.loginButton -> {
-                val intent = Intent(this@LoginActivity, SettingActivity::class.java)
-                startActivity(intent)
-
+                login()
             }
-
+            R.id.img_icon_password -> {
+                showPassword = !showPassword
+                hideOrshowPassword()
+            }
             R.id.tv_register -> {
                 val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.tv_find_password -> {
+                val intent = Intent(this@LoginActivity, FindPasswordActivity::class.java)
                 startActivity(intent)
             }
 
@@ -310,7 +407,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 requestAuthCodeButton.isEnabled = false
 
             }
-            R.id.ll_logintypeGesture -> {
+            R.id.img_guesture -> {
 
                 val isOpenedGuesture = ShareUtil.getBoolean("isOpenedGuesture", this)
                 if (isOpenedGuesture) {
@@ -323,12 +420,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
             }
-            R.id.ll_logintypeFinger -> {
+            R.id.img_fingerprint -> {
                 FingerLoginUtil.instance.FingerLogin(this, ConFig.CHECK_PRINT_FINGER_MODEL_LOGIN)
             }
 
 
-            R.id.ll_logintype_wechat -> {
+            R.id.img_wechat -> {
 
                 if (mShareAPI.isInstall(this, SHARE_MEDIA.WEIXIN)) {
                     mShareAPI.getPlatformInfo(this, SHARE_MEDIA.WEIXIN, authListener)
@@ -337,7 +434,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
             }
-            R.id.ll_logintype_qq -> {
+            R.id.img_qq -> {
 
                 if (mShareAPI.isInstall(this, SHARE_MEDIA.QQ)) {
                     mShareAPI.getPlatformInfo(this, SHARE_MEDIA.QQ, authListener)
@@ -346,6 +443,56 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
             }
+
+            R.id.img_phone -> {
+                //输入框标题（用户名或手机号）
+                loginConfig.userNameTitle = "手机号"
+                //输入框标题（密码或验证码）
+                loginConfig.passwordTitle = "短信验证码"
+                img_logintype_phone.visibility = View.GONE
+                img_logintype_user.visibility = View.VISIBLE
+                loginConfig.inputModel = ConFig.INPUTMODEL_PHONE
+                alertLoginMode()
+            }
+
+            R.id.img_user -> {
+                //输入框标题（用户名或手机号）
+                loginConfig.userNameTitle = "账号"
+                //输入框标题（密码或验证码）
+                loginConfig.passwordTitle = "密码"
+                img_logintype_phone.visibility = View.VISIBLE
+                img_logintype_user.visibility = View.GONE
+                loginConfig.inputModel = ConFig.INPUTMODEL_USER
+
+                alertLoginMode()
+            }
+
+            R.id.img_verify_code -> {
+                getVerifyCode()
+            }
+
+        }
+    }
+
+    /**
+     * 获图形验证码
+     */
+    private fun getVerifyCode() {
+        var time = Date().time.toString()
+        timestamp = time
+        val params = mutableMapOf<String, String>()
+        params["_t"] = time
+        mPresenter.getRandomImage(time, params)
+    }
+
+
+    private fun hideOrshowPassword() {
+        if (!showPassword) {
+            img_icon_password.setImageResource(R.mipmap.login_module_icon_password_hide)
+            passwordEditText.transformationMethod = PasswordTransformationMethod.getInstance()
+        } else {
+            img_icon_password.setImageResource(R.mipmap.login_module_icon_password_show)
+            passwordEditText.transformationMethod = HideReturnsTransformationMethod.getInstance()
         }
     }
 
@@ -374,4 +521,80 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         UMShareAPI.get(this@LoginActivity).onActivityResult(requestCode, resultCode, data)
     }
 
+    /**
+     * 切换账号登录/手机号登录
+     */
+    private fun alertLoginMode() {
+        showPassword = false
+        hideOrshowPassword()
+        usernameTitle.text = loginConfig.userNameTitle
+        passwordTitle.text = loginConfig.passwordTitle
+        accountEditText.hint = "请输入" + loginConfig.userNameTitle
+        passwordEditText.hint = "请输入" + loginConfig.passwordTitle
+        if (loginConfig.inputModel == ConFig.INPUTMODEL_USER) {//用户名，密码
+            tv_login_title.text = "账号登录"
+            requestAuthCodeButton.visibility = View.GONE
+            img_icon_password.visibility = View.VISIBLE
+            tv_find_password.visibility = View.VISIBLE
+            loginButton.text = "登录"
+            accountEditText.inputType = InputType.TYPE_CLASS_TEXT
+            passwordEditText.transformationMethod = PasswordTransformationMethod.getInstance()
+        } else if (loginConfig.inputModel == ConFig.INPUTMODEL_PHONE) {//手机号，验证码
+            tv_login_title.text = "手机登录"
+            requestAuthCodeButton.visibility = View.VISIBLE
+            img_icon_password.visibility = View.GONE
+            tv_find_password.visibility = View.GONE
+            loginButton.text = "登录/注册"
+            accountEditText.inputType = InputType.TYPE_CLASS_PHONE
+            passwordEditText.inputType = InputType.TYPE_CLASS_NUMBER
+            passwordEditText.transformationMethod = HideReturnsTransformationMethod.getInstance()
+        }
+
+        accountEditText.setText("")
+        passwordEditText.setText("")
+
+    }
+
+
+    private fun stringtoBitmap(base64: String?): Bitmap? {
+        //将字符串转换成Bitmap类型
+        var bitmap: Bitmap? = null
+        try {
+            val bitmapArray: ByteArray = Base64.decode(base64, Base64.DEFAULT)
+            bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.size)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return bitmap
+    }
+
+    override fun showRandomImage(randomImage: RandomImageBean) {
+        var base64_image = randomImage.result.substring(22)
+        img_verify_code.setImageBitmap(stringtoBitmap(base64_image))
+    }
+
+    override fun showError(errorMsg: String, errorCode: Int) {
+
+    }
+
+    override fun showLoginResult(loginBean: LoginBean) {
+        val intent = Intent(this@LoginActivity, SettingActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun showLoginError(errorMsg: String, errorCode: Int) {
+        Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showLoading() {
+
+    }
+
+    override fun showLoadingFailed() {
+
+    }
+
+    override fun showLoadingSuccess() {
+
+    }
 }

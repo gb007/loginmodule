@@ -38,26 +38,44 @@
                 android:lineSpacingExtra="5dp"
                 android:textSize="15dp" />
 
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minHeight="120dp"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:padding="20dp"
+                tools:ignore="WebViewLayout">
+
+
             <TextView
                 android:id="@+id/tv_back"
-                android:layout_width="140dp"
+                android:layout_width="100dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/login_module_str_disagree"
-                android:textColor="@color/login_module_black"
+                android:background="@drawable/login_module_bg_yuanjiao_blue_boder_25dp"
+                android:textColor="@color/login_module_blue_34"
                 android:textSize="@dimen/login_module_text_xiao" />
 
 
             <TextView
                 android:id="@+id/tv_ok"
-                android:layout_width="140dp"
+                android:layout_width="100dp"
                 android:layout_height="40dp"
+                android:layout_marginLeft="16dp"
                 android:background="@drawable/login_module_bg_yuanjiao_blue_25dp"
                 android:gravity="center"
                 android:text="@string/login_module_str_agree"
                 android:textColor="@color/login_module_white"
                 android:textSize="@dimen/login_module_text_xiao" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

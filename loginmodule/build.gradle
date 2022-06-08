@@ -52,6 +52,24 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
 
 
+    //Retrofit
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxjava2Version"
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit2Version"
+    implementation "com.squareup.retrofit2:converter-scalars:$rootProject.ext.retrofit2Version"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofit2Version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.retrofit2Version"
+    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+    implementation "com.trello.rxlifecycle2:rxlifecycle:$rootProject.ext.rxlifecycle"
+    implementation "com.trello.rxlifecycle2:rxlifecycle-components:$rootProject.ext.rxlifecycle"
+
+    //okhttp依赖的版本
+    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+    //basemodule
+    implementation 'com.github.gb007:basemodule:1.0.0'
+
+
    
     // 友盟智能认证（第三方认证登录）
     implementation  'com.umeng.umsdk:common:9.3.8'// 必选

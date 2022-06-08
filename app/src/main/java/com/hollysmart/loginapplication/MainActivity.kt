@@ -9,6 +9,7 @@ import com.hollysmart.loginmodule.common.ConFig
 import com.hollysmart.loginmodule.common.LoginConfig
 import com.hollysmart.loginmodule.common.PrivacyConfig
 import com.hollysmart.loginmodule.common.ThirdAuthConfig
+import com.hollysmart.myfirstkotlin.common.AppConst
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,13 +19,18 @@ class MainActivity : AppCompatActivity() {
         //登录页面设置
         var loginConfig = LoginConfig()
         //登录页面顶部logo图案
-        loginConfig.topLogoResourceId = R.mipmap.icon_login_head
+        loginConfig.topLogoResourceId = R.mipmap.login_top_bg
         //输入框标题（用户名或手机号）
-        loginConfig.userNameTitle = "用户名"
+        loginConfig.userNameTitle = "账号"
         //输入框标题（密码或验证码）
         loginConfig.passwordTitle = "密码"
         //登录类型（用户名或手机号）  INPUTMODEL_USER，INPUTMODEL_PHONE
         loginConfig.inputModel = ConFig.INPUTMODEL_USER
+        //服务器ip
+        loginConfig.baseUrl = "202.105.247.39"
+        //服务器端口
+        loginConfig.port = "8885"
+
         //弹出隐私提示框设置
         var privacyConfig = PrivacyConfig()
         //隐私政策名称
@@ -66,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("privacyConfig", Gson().toJson(privacyConfig))
         intent.putExtra("thirdAuthConfig", Gson().toJson(thirdAuthConfig))
         startActivity(intent)
+        finish()
     }
 }
 

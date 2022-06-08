@@ -109,6 +109,8 @@ public class EasyGestureLockLayout extends RelativeLayout {
             gestureCircleViewArr = new GestureLockCircleView[mCount * mCount];//用数组来保存 “按键”
             mGesturePasswordViewWidth = mWidth / mCount;//等分，不需要留间隙, 因为圆形控件会自己留空隙
 
+
+
             //利用相对布局的参数来放置子元素
             for (int i = 0; i < gestureCircleViewArr.length; i++) {
                 //初始化每个GestureLockView
@@ -214,7 +216,7 @@ public class EasyGestureLockLayout extends RelativeLayout {
         paint_correct = new Paint();
         paint_correct.setStyle(Paint.Style.STROKE);
         paint_correct.setAntiAlias(true);
-        paint_correct.setColor(getResources().getColor(R.color.login_module_colorChecked));
+        paint_correct.setColor(getResources().getColor(R.color.login_module_blue_34));
 
         paint_error = new Paint();
         paint_error.setStyle(Paint.Style.STROKE);

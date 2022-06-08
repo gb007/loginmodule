@@ -22,6 +22,27 @@ public class LoginConfig implements Serializable {
     //密码（验证码）输入框title
     private String passwordTitle;
 
+    //服务器ip
+    private String baseUrl;
+    //服务器端口
+    private String port;
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
+    }
+
     public int getTopLogoResourceId() {
         return topLogoResourceId;
     }

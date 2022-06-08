@@ -133,7 +133,7 @@ public class GestureLockCircleView extends View {
         paint_border = new Paint();
         paint_border.setColor(roundBorderColor);
         paint_border.setAntiAlias(true);//抗锯齿
-        paint_border.setStyle(Paint.Style.FILL);//FILL填充,stroke描边
+        paint_border.setStyle(Paint.Style.STROKE);//FILL填充,stroke描边
     }
 
     //3个状态
@@ -144,12 +144,12 @@ public class GestureLockCircleView extends View {
     public void switchStatus(int status) {
         switch (status) {
             case STATUS_CHECKED:
-                circleFillColor = getResources().getColor(R.color.login_module_colorChecked);
-                roundBorderColor = getResources().getColor(R.color.login_module_colorRoundBorder);
+                circleFillColor = getResources().getColor(R.color.login_module_blue_34);
+                roundBorderColor = getResources().getColor(R.color.login_module_blue_34);
                 break;
             case STATUS_CHECKED_ERR:
                 circleFillColor = getResources().getColor(R.color.login_module_colorCheckedErr);
-                roundBorderColor = getResources().getColor(R.color.login_module_colorRoundBorderErr);
+                roundBorderColor = getResources().getColor(R.color.login_module_colorCheckedErr);
                 break;
             case STATUS_NOT_CHECKED:// 普通状态
             default://以及缺省状态

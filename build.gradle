@@ -4,6 +4,13 @@ buildscript {
         google()
         mavenCentral()
         maven { url 'https://repo1.maven.org/maven2/' }
+        maven { url 'https://jitpack.io' }
+        maven {
+            url 'https://maven.aliyun.com/repository/google/'
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/jcenter/'
+        }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.3"
@@ -16,4 +23,31 @@ buildscript {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+// Define versions in a single place
+// 时间：2022.04.21；每次修改版本号都要添加修改时间
+ext {
+    // Sdk and tools
+    //localBuildToolsVersion是gradle.properties中的数据
+//    buildToolsVersion = localBuildToolsVersion
+//    compileSdkVersion = 30
+//    minSdkVersion = 21
+//    targetSdkVersion = 30
+//    versionCode = 1
+//    versionName = "1.0.0"
+//    javaVersion = JavaVersion.VERSION_1_8
+
+    // App dependencies version
+//    supportLibraryVersion = "25.3.1"
+//    eventbusVersion = "3.0.0"
+    rxjava2Version = '2.0.8'
+    retrofit2Version = '2.2.0'
+    rxlifecycle = '2.1.0'
+    roomVersion = "2.4.0"
+//    gsonVersion = '2.8.9'
+//需检查升级版本
+//    annotationProcessor = "1.1.7"
+//    routerVersion = "1.2.2"
+
 }
